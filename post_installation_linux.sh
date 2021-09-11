@@ -1,3 +1,5 @@
+echo "============== Move to home Dir =============="
+echo $HOME
 
 echo "============== Fira Code font =============="
 sudo apt install -y fonts-firacode
@@ -52,7 +54,7 @@ newgrp docker
 
 echo "=========== POSTGRESQL on Docker ==============="
 mkdir ${HOME}/postgres-data/
-sudo docker run --restart=always -d --network net0 --name postgres -e POSTGRES_PASSWORD=toortoor -v ${HOME}/postgres-data/:/var/lib/postgresql/data -p 5432:5432 postgres
+sudo docker run --restart=always -d --name postgres -e POSTGRES_PASSWORD=toortoor -v ${HOME}/postgres-data/:/var/lib/postgresql/data -p 5432:5432 postgres
 
 echo "=========== MySQL on Docker ==============="
 mkdir ${HOME}/mysql-data/
@@ -73,3 +75,51 @@ sudo sh -c 'echo "deb https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_
 
 sudo apt install -y pgadmin4
 
+echo "============ Chrome =================="
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+
+sudo apt -y install ./google-chrome-stable_current_amd64.deb
+
+echo "============ Zoom =================="
+sudo snap install zoom-client
+
+echo "============ Postman =================="
+# Download Postman v7
+wget https://go.pstmn.io/dl-linux64-v7-latest -O postman.tar.gz
+
+# Extract
+sudo tar -xzf postman.tar.gz -C /opt
+
+# Remove package
+rm postman.tar.gz
+
+# Create hard link
+sudo ln -s /opt/Postman/Postman /usr/bin/postman
+
+# Create Postman link
+cat > ~/.local/share/applications/postman.desktop <<EOL
+[Desktop Entry]
+Encoding=UTF-8
+Name=Postman
+Exec=postman
+Icon=/opt/Postman/app/resources/app/assets/icon.png
+Terminal=false
+Type=Application
+Categories=Development;
+EOL
+
+echo "============= Workbench ==================="
+# Download  => Install => remove deb file [Dependency]
+wget http://ftp.br.debian.org/debian/pool/main/g/gdal/libgdal20_2.1.2+dfsg-5_amd64.deb -O libgdal.deb
+sudo apt install ./libgdal.deb
+rm libgdal.deb
+
+# Install mysql workbench
+sudo apt-get -f install mysql-workbench
+
+echo "============= Slack ==================="
+# Download
+wget https://downloads.slack-edge.com/linux_releases/slack-desktop-4.0.2-amd64.deb
+
+# Install slack
+sudo apt install -y ./slack-desktop-*.deb
