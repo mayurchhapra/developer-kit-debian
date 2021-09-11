@@ -123,3 +123,16 @@ wget https://downloads.slack-edge.com/linux_releases/slack-desktop-4.0.2-amd64.d
 
 # Install slack
 sudo apt install -y ./slack-desktop-*.deb
+
+echo "=========== MS TEAMS =============="
+# ADD KEY
+curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+
+# DOWNLOAD PACKAGE
+sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/ms-teams stable main" > /etc/apt/sources.list.d/teams.list'
+
+# UPDATE APT
+sudo apt update
+
+# INSTALL TEAMS
+sudo apt install teams
